@@ -1,0 +1,118 @@
+User (
+  id UUID PRIMARY KEY,
+  email TEXT UNIQUE NOT NULL,
+  password_hash TEXT,
+  created_at TIMESTAMP DEFAULT now(),
+  credits INT DEFAULT 0,
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+Project (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES User(id),
+  title TEXT,
+  status TEXT, -- active / completed / failed
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+Photo (
+  id UUID PRIMARY KEY,
+  project_id UUID REFERENCES Project(id),
+
+  original_url TEXT NOT NULL,
+
+  restored_preview_url TEXT,   -- preview gratuite (watermark possible)
+  restored_hd_url TEXT,        -- version HD payante
+
+  colorized_preview_url TEXT,
+  colorized_hd_url TEXT,
+
+  is_preview_generated BOOLEAN DEFAULT false,
+
+  metadata JSONB,
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+Video (
+  id UUID PRIMARY KEY,
+  project_id UUID REFERENCES Project(id),
+
+  preview_url TEXT,      -- vidéo avec watermark
+  final_url TEXT,        -- vidéo HD sans watermark
+
+  thumbnail_url TEXT,
+
+  duration INT DEFAULT 10,
+  style TEXT, -- cinematic, subtle...
+
+  is_preview_generated BOOLEAN DEFAULT false,
+
+  status TEXT, -- pending / processing / done / failed
+
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+
+Generation (
+  id UUID PRIMARY KEY,
+  project_id UUID REFERENCES Project(id),
+
+  type TEXT CHECK (type IN ('restore','colorize','animate'))
+
+  status TEXT, -- pending / processing / done / failed
+
+  provider TEXT, -- replicate, internal...
+  cost DECIMAL,  -- coût réel pour toi
+
+  is_free BOOLEAN DEFAULT false, -- preview gratuite ou non
+
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+
+Subscription (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES User(id),
+
+  plan TEXT, -- free / pro / premium
+  status TEXT, -- active / canceled / past_due
+
+  stripe_customer_id TEXT,
+  current_period_end TIMESTAMP,
+
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+Payment (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES User(id),
+  project_id UUID REFERENCES Project(id),
+
+  amount DECIMAL,
+  currency TEXT DEFAULT 'eur',
+
+  type TEXT, -- video_unlock / hd_download / subscription
+
+  status TEXT, -- succeeded / failed / pending
+
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
+
+Usage (
+  id UUID PRIMARY KEY,
+  user_id UUID REFERENCES User(id),
+
+  action TEXT, -- restore / colorize / animate
+  is_free BOOLEAN DEFAULT false,
+
+  credits_used INT DEFAULT 0,
+
+  created_at TIMESTAMP DEFAULT now(),
+  updated_at TIMESTAMP DEFAULT now()
+)
