@@ -34,7 +34,12 @@ exports.generatePreview = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'generation failed' });
+    console.error("❌ ERROR generatePreview:", err);
+
+    res.status(500).json({
+      error: err.message,
+      // 👇 utile en dev uniquement
+      details: process.env.NODE_ENV === 'development' ? err.stack : undefined
+    });
   }
 };
