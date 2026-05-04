@@ -225,7 +225,7 @@ await Project.update(
 
 ## 👨‍💻 Author
 
-Built with ❤️ by you
+Built by tOCHSKa
 
 ---
 
