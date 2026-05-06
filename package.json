@@ -17,6 +17,9 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "eslint": "^10.3.0",
+    "eslint-plugin-vue": "^10.9.1",
+    "globals": "^17.6.0",
     "jest": "^30.3.0"
   },
   "scripts": {
