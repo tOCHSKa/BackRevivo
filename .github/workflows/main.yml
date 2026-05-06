@@ -37,6 +37,12 @@ jobs:
           npm test
         continue-on-error: false
 
+      # 7. Run ESLint
+      - name: Run ESLint
+        run: |
+          npx eslint .
+        continue-on-error: false
+
       # 4. Configure environment variables
       # - name: Configure environment variables
       #   run: |
