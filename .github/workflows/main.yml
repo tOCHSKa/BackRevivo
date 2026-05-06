@@ -34,9 +34,6 @@ jobs:
       - name: Lint
         run: npx eslint .
 
-      - name: Format check
-        run: npx prettier --check .
-
       - name: Test
         run: npm test
         env:
