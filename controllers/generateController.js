@@ -38,7 +38,6 @@ exports.generatePreview = async (req, res) => {
 
     res.status(500).json({
       error: err.message,
-      // 👇 utile en dev uniquement
       details: process.env.NODE_ENV === 'development' ? err.stack : undefined
     });
   }

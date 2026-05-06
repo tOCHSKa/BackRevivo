@@ -25,7 +25,6 @@ exports.restoreImage = async (imageUrl) => {
   };
 };
 
-// helper interne
 function extractUrl(output) {
   if (!output) return null;
 
