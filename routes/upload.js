@@ -3,7 +3,7 @@ const multer = require('multer');
 const upload = multer({ dest: 'uploads/' });
 const ctrl = require('../controllers/uploadController');
 const rateLimit = require('express-rate-limit');
-const optionalAuth = require('../middleware/optionalAuth');
+// const optionalAuth = require('../middleware/optionalAuth');
 
 const uploadLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,

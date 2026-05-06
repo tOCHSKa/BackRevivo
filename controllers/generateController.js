@@ -1,4 +1,4 @@
-const { Generation } = require('../models');
+// const { Generation } = require('../models');
 const { Photo } = require('../models');
 const replicateService = require('../services/replicateService');
 
